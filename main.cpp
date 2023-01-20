@@ -4,6 +4,9 @@
 int main() {
     Application app;
     app.setup();
-    // update and render
+    while(!app.window.shouldClose()){
+        app.update();
+        app.render();
+    }
     app.end();
 }

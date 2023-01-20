@@ -5,7 +5,11 @@
 #ifndef ULTIMATE_CITY_GENERATOR_APPLICATION_H
 #define ULTIMATE_CITY_GENERATOR_APPLICATION_H
 
+#include "graphics/Window.h"
+
 class Application{
+public:
+    Window window;
 
 public:
     void setup();
