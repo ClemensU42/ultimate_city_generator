@@ -1,6 +1,9 @@
 #include <iostream>
+#include "app/Application.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
+    Application app;
+    app.setup();
+    // update and render
+    app.end();
 }
