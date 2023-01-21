@@ -4,24 +4,32 @@
 #include "Application.h"
 
 #include "graphics/Window.h"
-#include "imgui.h"
-#include "backends/imgui_impl_glfw.h"
-#include "backends/imgui_impl_opengl3.h"
+#include "graphics/gui_areas/MasterArea.h"
 
 #include <CL/cl.hpp>
 
 #include <iostream>
 
+GuiAreas::MasterArea masterArea;
+
 void Application::setup() {
     std::cout << "hello world!" << std::endl;
     this->window = Window(1920, 1080, "Ultimate City Generator");
 
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-    ImGui_ImplGlfw_InitForOpenGL(this->window.glfwWindow, true);
-    ImGui_ImplOpenGL3_Init("#version 130");
+
+
+    cl_int err;
+    cl_uint numPlatforms;
+
+    err = clGetPlatformIDs(0, nullptr, &numPlatforms);
+    if(CL_SUCCESS == err){
+        std::cout << "\nDetected OpenCL platforms: " << numPlatforms << std::endl;
+    } else {
+        std::cout << "\nError calling clGetPlatformIDs. Error Code: " << err << std::endl;
+    }
+
+    masterArea = GuiAreas::MasterArea(this->window.glfwWindow);
+    masterArea.Initialize();
 }
 
 void Application::update() {
@@ -33,9 +41,8 @@ void Application::render() {
     glClearColor(0, 0, 0, 0);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplGlfw_NewFrame();
-    ImGui::NewFrame();
+    masterArea.Render();
+/*
     ImGui::DockSpaceOverViewport(ImGui::GetWindowViewport());
     ImGui::Begin("first window");
 
@@ -43,15 +50,12 @@ void Application::render() {
 
     ImGui::End();
 
-    ImGui::Render();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+*/
 
     glfwSwapBuffers(this->window.glfwWindow);
 }
 
 void Application::end(){
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
+    masterArea.End();
     this->window.kill();
 }

@@ -40,6 +40,7 @@ Window::Window(int width, int height, const char* title) : windowWidth(width), w
 Window::Window() {}
 
 void Window::kill() {
+    glfwDestroyWindow(this->glfwWindow);
     glfwTerminate();
 }
 
