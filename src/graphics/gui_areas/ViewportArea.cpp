@@ -8,6 +8,8 @@
 #include <glad/glad.h>
 #include <iostream>
 
+ImVec2 prevSize;
+
 namespace GuiAreas {
     void ViewportArea::Initialize() {
         glGenFramebuffers(1, &this->fbo);
@@ -17,6 +19,13 @@ namespace GuiAreas {
 
     void ViewportArea::Render() {
         ImGui::Begin("Viewport");
+
+        ImVec2 windowSize = ImGui::GetWindowContentRegionMax();
+        if(prevSize.x != windowSize.x && prevSize.y != windowSize.y){
+            isDirty = true;
+            prevSize = windowSize;
+        }
+
         if(this->isDirty){
             this->isDirty = false;
             this->viewportWidth = ImGui::GetWindowContentRegionWidth();
@@ -56,6 +65,7 @@ namespace GuiAreas {
     }
 
     void ViewportArea::Clean() {
+        BindFramebuffer();
         glBindTexture(GL_TEXTURE_2D, this->texture);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, this->viewportWidth, this->viewportHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
 
