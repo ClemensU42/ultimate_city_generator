@@ -11,3 +11,5 @@ add_library(app
 
 target_include_directories(app PUBLIC
         ${CMAKE_SOURCE_DIR}/lib/imgui)
+
+target_link_libraries(app ${OpenCL_LIBRARY})

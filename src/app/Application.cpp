@@ -8,6 +8,8 @@
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 
+#include <CL/cl.hpp>
+
 #include <iostream>
 
 void Application::setup() {
@@ -17,6 +19,7 @@ void Application::setup() {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     ImGui_ImplGlfw_InitForOpenGL(this->window.glfwWindow, true);
     ImGui_ImplOpenGL3_Init("#version 130");
 }
@@ -33,6 +36,7 @@ void Application::render() {
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
+    ImGui::DockSpaceOverViewport(ImGui::GetWindowViewport());
     ImGui::Begin("first window");
 
     ImGui::Text("Hello, world %d", 123);
@@ -46,5 +50,8 @@ void Application::render() {
 }
 
 void Application::end(){
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
     this->window.kill();
 }
