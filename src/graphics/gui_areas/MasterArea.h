@@ -9,12 +9,15 @@
 #include "imgui.h"
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
+#include "ViewportArea.h"
 
 namespace GuiAreas {
     class MasterArea {
 
         bool firstTimeRender = true;
         ImGuiWindowFlags windowFlags;
+
+        ViewportArea viewportArea;
 
     public:
         MasterArea();

@@ -73,9 +73,7 @@ namespace GuiAreas {
         ImGui::Text("Settings panel!");
         ImGui::End();
 
-        ImGui::Begin("Viewport");
-        ImGui::Text("Viewport panel!");
-        ImGui::End();
+        this->viewportArea.Render();
 
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -92,6 +90,6 @@ namespace GuiAreas {
     }
 
     void MasterArea::Initialize() {
-
+        this->viewportArea.Initialize();
     }
 } // GuiAreas
