@@ -9,7 +9,7 @@ add_library(graphics
         ${CMAKE_SOURCE_DIR}/lib/imgui/imgui_tables.cpp
         ${CMAKE_SOURCE_DIR}/lib/imgui/imgui_widgets.cpp
 
-        Window.cpp Mesh.cpp Shader.cpp Shader.h gui_areas/ViewportArea.cpp gui_areas/ViewportArea.h gui_areas/NodeArea.cpp gui_areas/NodeArea.h gui_areas/MasterArea.cpp gui_areas/MasterArea.h)
+        Window.cpp gui_areas/ViewportArea.cpp gui_areas/ViewportArea.h gui_areas/NodeArea.cpp gui_areas/NodeArea.h gui_areas/MasterArea.cpp gui_areas/MasterArea.h)
 
 target_include_directories(graphics PUBLIC
         ${CMAKE_SOURCE_DIR}/lib/glfw/include
