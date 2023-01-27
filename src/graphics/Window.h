@@ -2,7 +2,7 @@
 // Created by Clemens on 20/01/2023.
 //
 
-#include <glad/glad.h>
+#define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
 #ifndef ULTIMATE_CITY_GENERATOR_WINDOW_H

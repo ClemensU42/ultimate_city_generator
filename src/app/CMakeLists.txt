@@ -7,4 +7,4 @@ add_library(app
 target_include_directories(app PUBLIC
         )
 
-target_link_libraries(app ${OpenCL_LIBRARY})
+target_link_libraries(app ${OpenCL_LIBRARY} ${Vulkan_LIBRARY})

@@ -10,7 +10,7 @@
 
 #include <iostream>
 
-GuiAreas::MasterArea masterArea;
+//GuiAreas::MasterArea masterArea;
 
 void Application::setup() {
     std::cout << "hello world!" << std::endl;
@@ -28,34 +28,21 @@ void Application::setup() {
         std::cout << "\nError calling clGetPlatformIDs. Error Code: " << err << std::endl;
     }
 
-    masterArea = GuiAreas::MasterArea(this->window.glfwWindow);
-    masterArea.Initialize();
+    //masterArea = GuiAreas::MasterArea(this->window.glfwWindow);
+    //masterArea.Initialize();
 }
 
 void Application::update() {
     glfwPollEvents();
 }
 
-void Application::render() {
-
-    glClearColor(0, 0, 0, 0);
-    glClear(GL_COLOR_BUFFER_BIT);
-
+void Application::render() {/*
     masterArea.Render();
-/*
-    ImGui::DockSpaceOverViewport(ImGui::GetWindowViewport());
-    ImGui::Begin("first window");
-
-    ImGui::Text("Hello, world %d", 123);
-
-    ImGui::End();
-
-*/
 
     glfwSwapBuffers(this->window.glfwWindow);
-}
+*/}
 
 void Application::end(){
-    masterArea.End();
+    //masterArea.End();
     this->window.kill();
 }
