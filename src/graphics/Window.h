@@ -2,7 +2,7 @@
 // Created by Clemens on 20/01/2023.
 //
 
-#define GLFW_INCLUDE_VULKAN
+#include "VulkanUtils.h"
 #include <GLFW/glfw3.h>
 
 #ifndef ULTIMATE_CITY_GENERATOR_WINDOW_H
@@ -14,6 +14,8 @@ public:
     GLFWwindow* glfwWindow;
     int windowWidth;
     int windowHeight;
+
+    VkInstance instance;
 
 public:
     Window(int width, int height, const char* title);

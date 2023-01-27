@@ -9,6 +9,8 @@ find_package(Vulkan REQUIRED)
 link_directories(${OpenCL_LIBRARY} ${Vulkan_LIB_LIST})
 include_directories(${OpenCL_INCLUDE_DIRS} ${Vulkan_INCLUDE_DIRS})
 
+add_definitions(-DPLACEHOLDER)
+
 add_subdirectory(lib/glfw)
 add_subdirectory(src)
 

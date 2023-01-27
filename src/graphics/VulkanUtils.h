@@ -5,9 +5,15 @@
 #ifndef ULTIMATE_CITY_GENERATOR_VULKANUTILS_H
 #define ULTIMATE_CITY_GENERATOR_VULKANUTILS_H
 
+#ifndef GLFW_INCLUDE_VULKAN
+#define GLFW_INCLUDE_VULKAN
+#endif
+#include <GLFW/glfw3.h>
 
-class VulkanUtils {
+namespace VulkanUtils {
+    void initVulkan();
 
+    VkInstance createInstance();
 };
 
 

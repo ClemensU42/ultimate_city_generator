@@ -3,6 +3,7 @@
 //
 
 #include "Window.h"
+#include "VulkanUtils.h"
 
 //#include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -17,6 +18,7 @@ Window::Window(int width, int height, const char* title) : windowWidth(width), w
 
     this->glfwWindow = glfwCreateWindow(width, height, title, nullptr, nullptr);
 
+    this->instance = VulkanUtils::createInstance();
 }
 
 Window::Window() {}
