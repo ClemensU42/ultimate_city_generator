@@ -12,12 +12,11 @@ Window::Window(int width, int height, const char* title) : windowWidth(width), w
     glfwInit();
 
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-    this->glfwWindow = glfwCreateWindow(1920, 1080, "Ultimate City Generator", nullptr, nullptr);
+    // TODO: add window resizing
+    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
-    uint32_t extensionCount = 0;
-    vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
+    this->glfwWindow = glfwCreateWindow(width, height, title, nullptr, nullptr);
 
-    std::cout << extensionCount << " extensions supported!\n" << std::endl;
 }
 
 Window::Window() {}

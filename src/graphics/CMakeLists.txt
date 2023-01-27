@@ -10,7 +10,7 @@ add_library(graphics
 
         Window.cpp
         #gui_areas/ViewportArea.cpp gui_areas/ViewportArea.h gui_areas/NodeArea.cpp gui_areas/NodeArea.h gui_areas/MasterArea.cpp gui_areas/MasterArea.h
-        )
+        VulkanUtils.cpp VulkanUtils.h)
 
 
 target_include_directories(graphics PUBLIC

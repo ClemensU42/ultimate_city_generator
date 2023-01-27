@@ -1,0 +1,14 @@
+//
+// Created by Clemens on 27/01/2023.
+//
+
+#ifndef ULTIMATE_CITY_GENERATOR_VULKANUTILS_H
+#define ULTIMATE_CITY_GENERATOR_VULKANUTILS_H
+
+
+class VulkanUtils {
+
+};
+
+
+#endif //ULTIMATE_CITY_GENERATOR_VULKANUTILS_H
