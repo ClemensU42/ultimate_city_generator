@@ -17,6 +17,9 @@ namespace VulkanUtils {
     VkInstance createInstance(const std::vector<const char*>& validationLayers);
 
     bool checkValidationLayerSupport(const std::vector<const char*>& validationLayers);
+
+    void pickPhysicalDevice(VkInstance& instance);
+    bool isDeviceSuitable(VkPhysicalDevice device);
 };
 
 
