@@ -29,15 +29,25 @@ Window::Window(int width, int height, const char* title) : windowWidth(width), w
 #endif
 
     this->instance = VulkanUtils::createInstance(validationLayers);
+
+    if(glfwCreateWindowSurface(this->instance, this->glfwWindow, nullptr, &this->surface) != VK_SUCCESS){
+        throw std::runtime_error("failed to create window surface!");
+    }
+
     this->physicalDevice = VulkanUtils::pickPhysicalDevice(this->instance);
-    this->device = VulkanUtils::createLogicalDevice(this->physicalDevice, validationLayers);
+    this->device = VulkanUtils::createLogicalDevice(this->physicalDevice, validationLayers, &this->graphicsQueue);
 }
 
 Window::Window() {}
 
 void Window::kill() {
     vkDestroyDevice(this->device, nullptr);
+
+    // destroy the surface before destroying the instance!
+    vkDestroySurfaceKHR(this->instance, this->surface, nullptr);
+
     vkDestroyInstance(this->instance, nullptr);
+
     glfwDestroyWindow(this->glfwWindow);
     glfwTerminate();
 }

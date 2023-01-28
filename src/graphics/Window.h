@@ -18,6 +18,8 @@ public:
     VkInstance instance;
     VkPhysicalDevice physicalDevice;
     VkDevice device;
+    VkQueue graphicsQueue;
+    VkSurfaceKHR surface;
 
 public:
     Window(int width, int height, const char* title);

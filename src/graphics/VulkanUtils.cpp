@@ -158,7 +158,7 @@ VulkanUtils::QueueFamilyIndices VulkanUtils::findQueueFamilies(VkPhysicalDevice 
     return indices;
 }
 
-VkDevice VulkanUtils::createLogicalDevice(VkPhysicalDevice physicalDevice, const std::vector<const char*>& validationLayers){
+VkDevice VulkanUtils::createLogicalDevice(VkPhysicalDevice physicalDevice, const std::vector<const char*>& validationLayers, VkQueue* graphicsQueue){
     VulkanUtils::QueueFamilyIndices indices = findQueueFamilies(physicalDevice);
 
     VkDeviceQueueCreateInfo queueCreateInfo{};
@@ -187,6 +187,8 @@ VkDevice VulkanUtils::createLogicalDevice(VkPhysicalDevice physicalDevice, const
     if(vkCreateDevice(physicalDevice, &createInfo, nullptr, &result) != VK_SUCCESS){
         throw std::runtime_error("failed to create logical device!");
     }
+
+    vkGetDeviceQueue(result, indices.graphicsFamily.value(), 0, graphicsQueue);
 
     return result;
 }

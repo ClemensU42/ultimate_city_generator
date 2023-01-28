@@ -30,7 +30,7 @@ namespace VulkanUtils {
     VkPhysicalDevice pickPhysicalDevice(VkInstance& instance);
     bool isDeviceSuitable(VkPhysicalDevice device);
     QueueFamilyIndices findQueueFamilies(VkPhysicalDevice);
-    VkDevice createLogicalDevice(VkPhysicalDevice physicalDevice, const std::vector<const char*>& validationLayers);
+    VkDevice createLogicalDevice(VkPhysicalDevice physicalDevice, const std::vector<const char*>& validationLayers, VkQueue* graphicsQueue);
 };
 
 
