@@ -8,6 +8,11 @@
 //#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <vector>
+
+const std::vector<const char*> validationLayers = {
+        "VK_LAYER_KHRONOS_validation"
+};
 
 Window::Window(int width, int height, const char* title) : windowWidth(width), windowHeight(height){
     glfwInit();
@@ -18,12 +23,19 @@ Window::Window(int width, int height, const char* title) : windowWidth(width), w
 
     this->glfwWindow = glfwCreateWindow(width, height, title, nullptr, nullptr);
 
-    this->instance = VulkanUtils::createInstance();
+#ifndef NDEBUG
+    if(!VulkanUtils::checkValidationLayerSupport(validationLayers)){
+        throw std::runtime_error("validation layers requested, but not available!");
+    }
+#endif
+
+    this->instance = VulkanUtils::createInstance(validationLayers);
 }
 
 Window::Window() {}
 
 void Window::kill() {
+    vkDestroyInstance(this->instance, nullptr);
     glfwDestroyWindow(this->glfwWindow);
     glfwTerminate();
 }

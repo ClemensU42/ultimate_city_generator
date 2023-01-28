@@ -9,11 +9,14 @@
 #define GLFW_INCLUDE_VULKAN
 #endif
 #include <GLFW/glfw3.h>
+#include <vector>
 
 namespace VulkanUtils {
     void initVulkan();
 
-    VkInstance createInstance();
+    VkInstance createInstance(const std::vector<const char*>& validationLayers);
+
+    bool checkValidationLayerSupport(const std::vector<const char*>& validationLayers);
 };
 
 

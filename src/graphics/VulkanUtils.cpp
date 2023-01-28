@@ -5,12 +5,15 @@
 #include "VulkanUtils.h"
 #include <GLFW/glfw3.h>
 #include <stdexcept>
+#include <vector>
+#include <iostream>
+#include <cstring>
 
 void VulkanUtils::initVulkan() {
 
 }
 
-VkInstance VulkanUtils::createInstance() {
+VkInstance VulkanUtils::createInstance(const std::vector<const char*>& validationLayers) {
     VkInstance instance{};
     VkApplicationInfo appInfo{};
 
@@ -33,13 +36,55 @@ VkInstance VulkanUtils::createInstance() {
     createInfo.enabledExtensionCount = glfwExtensionCount;
     createInfo.ppEnabledExtensionNames = glfwExtensions;
 
+#ifdef NDEBUG
     createInfo.enabledLayerCount = 0;
+#else
+    createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
+    createInfo.ppEnabledLayerNames = validationLayers.data();
+#endif
 
     VkResult result = vkCreateInstance(&createInfo, nullptr, &instance);
 
     if(result !=VK_SUCCESS){
-        throw std::runtime_error("fauled to create VkInstance!");
+        throw std::runtime_error("failed to create VkInstance!");
+    }
+
+    uint32_t extensionCount = 0;
+    vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
+
+    std::vector<VkExtensionProperties> extensions(extensionCount);
+
+    vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensions.data());
+
+    std::cout << "Available extensions:\n";
+    for(const auto& extension : extensions){
+        std::cout << '\t' << extension.extensionName << '\n';
     }
 
     return instance;
+}
+
+bool VulkanUtils::checkValidationLayerSupport(const std::vector<const char*>& validationLayers) {
+    uint32_t layerCount;
+    vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
+
+    std::vector<VkLayerProperties> availableLayers(layerCount);
+    vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
+
+    for(const char* layerName : validationLayers){
+        bool layerFound = false;
+
+        for(const auto& layerProperties : availableLayers){
+            if(strcmp(layerName, layerProperties.layerName) == 0){
+                layerFound = true;
+                break;
+            }
+        }
+
+        if(!layerFound){
+            return false;
+        }
+    }
+
+    return true;
 }
