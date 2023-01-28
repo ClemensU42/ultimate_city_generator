@@ -34,8 +34,8 @@ Window::Window(int width, int height, const char* title) : windowWidth(width), w
         throw std::runtime_error("failed to create window surface!");
     }
 
-    this->physicalDevice = VulkanUtils::pickPhysicalDevice(this->instance);
-    this->device = VulkanUtils::createLogicalDevice(this->physicalDevice, validationLayers, &this->graphicsQueue);
+    this->physicalDevice = VulkanUtils::pickPhysicalDevice(this->instance, this->surface);
+    this->device = VulkanUtils::createLogicalDevice(this->physicalDevice, validationLayers, &this->graphicsQueue, this->surface);
 }
 
 Window::Window() {}

@@ -10,7 +10,7 @@
 #include <cstring>
 
 bool VulkanUtils::QueueFamilyIndices::isComplete() const  {
-    return this->graphicsFamily.has_value();
+    return this->graphicsFamily.has_value() && this->presentFamily.has_value();
 }
 
 
@@ -94,7 +94,7 @@ bool VulkanUtils::checkValidationLayerSupport(const std::vector<const char*>& va
     return true;
 }
 
-VkPhysicalDevice VulkanUtils::pickPhysicalDevice(VkInstance& instance) {
+VkPhysicalDevice VulkanUtils::pickPhysicalDevice(VkInstance& instance, VkSurfaceKHR& surface) {
     VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
 
     uint32_t deviceCount = 0;
@@ -110,7 +110,7 @@ VkPhysicalDevice VulkanUtils::pickPhysicalDevice(VkInstance& instance) {
     // TODO: give each device a score and use device with highest score for best performance
 
     for(const auto& device : devices){
-        if(VulkanUtils::isDeviceSuitable(device)){
+        if(VulkanUtils::isDeviceSuitable(device, surface)){
             physicalDevice = device;
             break;
         }
@@ -123,19 +123,19 @@ VkPhysicalDevice VulkanUtils::pickPhysicalDevice(VkInstance& instance) {
     return physicalDevice;
 }
 
-bool VulkanUtils::isDeviceSuitable(VkPhysicalDevice device) {
+bool VulkanUtils::isDeviceSuitable(VkPhysicalDevice device, VkSurfaceKHR& surface) {
     VkPhysicalDeviceProperties deviceProperties;
     vkGetPhysicalDeviceProperties(device, &deviceProperties);
 
     VkPhysicalDeviceFeatures deviceFeatures;
     vkGetPhysicalDeviceFeatures(device, &deviceFeatures);
 
-    VulkanUtils::QueueFamilyIndices indices = VulkanUtils::findQueueFamilies(device);
+    VulkanUtils::QueueFamilyIndices indices = VulkanUtils::findQueueFamilies(device, surface);
 
     return deviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU && indices.isComplete();
 }
 
-VulkanUtils::QueueFamilyIndices VulkanUtils::findQueueFamilies(VkPhysicalDevice device) {
+VulkanUtils::QueueFamilyIndices VulkanUtils::findQueueFamilies(VkPhysicalDevice device, VkSurfaceKHR& surface) {
     QueueFamilyIndices indices;
 
     uint32_t queueFamilyCount = 0;
@@ -150,6 +150,12 @@ VulkanUtils::QueueFamilyIndices VulkanUtils::findQueueFamilies(VkPhysicalDevice 
             indices.graphicsFamily = i;
         }
 
+        VkBool32 presentSupport = false;
+        vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &presentSupport);
+        if(presentSupport){
+            indices.presentFamily = i;
+        }
+
         if(indices.isComplete()) break;
 
         i++;
@@ -158,8 +164,8 @@ VulkanUtils::QueueFamilyIndices VulkanUtils::findQueueFamilies(VkPhysicalDevice 
     return indices;
 }
 
-VkDevice VulkanUtils::createLogicalDevice(VkPhysicalDevice physicalDevice, const std::vector<const char*>& validationLayers, VkQueue* graphicsQueue){
-    VulkanUtils::QueueFamilyIndices indices = findQueueFamilies(physicalDevice);
+VkDevice VulkanUtils::createLogicalDevice(VkPhysicalDevice physicalDevice, const std::vector<const char*>& validationLayers, VkQueue* graphicsQueue, VkSurfaceKHR& surface){
+    VulkanUtils::QueueFamilyIndices indices = findQueueFamilies(physicalDevice, surface);
 
     VkDeviceQueueCreateInfo queueCreateInfo{};
     queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;

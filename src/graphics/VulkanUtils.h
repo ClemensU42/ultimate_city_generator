@@ -15,6 +15,7 @@
 namespace VulkanUtils {
     struct QueueFamilyIndices{
         std::optional<uint32_t> graphicsFamily;
+        std::optional<uint32_t> presentFamily;
 
         bool isComplete() const;
     };
@@ -27,10 +28,10 @@ namespace VulkanUtils {
     bool checkValidationLayerSupport(const std::vector<const char*>& validationLayers);
 
     // Device related functions
-    VkPhysicalDevice pickPhysicalDevice(VkInstance& instance);
-    bool isDeviceSuitable(VkPhysicalDevice device);
-    QueueFamilyIndices findQueueFamilies(VkPhysicalDevice);
-    VkDevice createLogicalDevice(VkPhysicalDevice physicalDevice, const std::vector<const char*>& validationLayers, VkQueue* graphicsQueue);
+    VkPhysicalDevice pickPhysicalDevice(VkInstance& instance, VkSurfaceKHR& surface);
+    bool isDeviceSuitable(VkPhysicalDevice device, VkSurfaceKHR& surface);
+    QueueFamilyIndices findQueueFamilies(VkPhysicalDevice, VkSurfaceKHR& surface);
+    VkDevice createLogicalDevice(VkPhysicalDevice physicalDevice, const std::vector<const char*>& validationLayers, VkQueue* graphicsQueue, VkSurfaceKHR& surface);
 };
 
 
