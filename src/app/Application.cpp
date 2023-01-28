@@ -13,7 +13,6 @@
 //GuiAreas::MasterArea masterArea;
 
 void Application::setup() {
-    std::cout << "hello world!" << std::endl;
     this->window = Window(1920, 1080, "Ultimate City Generator");
 
 

@@ -27,9 +27,10 @@ namespace VulkanUtils {
     bool checkValidationLayerSupport(const std::vector<const char*>& validationLayers);
 
     // Device related functions
-    void pickPhysicalDevice(VkInstance& instance);
+    VkPhysicalDevice pickPhysicalDevice(VkInstance& instance);
     bool isDeviceSuitable(VkPhysicalDevice device);
     QueueFamilyIndices findQueueFamilies(VkPhysicalDevice);
+    VkDevice createLogicalDevice(VkPhysicalDevice physicalDevice, const std::vector<const char*>& validationLayers);
 };
 
 

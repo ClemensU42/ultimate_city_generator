@@ -16,6 +16,8 @@ public:
     int windowHeight;
 
     VkInstance instance;
+    VkPhysicalDevice physicalDevice;
+    VkDevice device;
 
 public:
     Window(int width, int height, const char* title);

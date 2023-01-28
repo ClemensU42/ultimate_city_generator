@@ -5,7 +5,6 @@
 #include "Window.h"
 #include "VulkanUtils.h"
 
-//#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <vector>
@@ -30,11 +29,14 @@ Window::Window(int width, int height, const char* title) : windowWidth(width), w
 #endif
 
     this->instance = VulkanUtils::createInstance(validationLayers);
+    this->physicalDevice = VulkanUtils::pickPhysicalDevice(this->instance);
+    this->device = VulkanUtils::createLogicalDevice(this->physicalDevice, validationLayers);
 }
 
 Window::Window() {}
 
 void Window::kill() {
+    vkDestroyDevice(this->device, nullptr);
     vkDestroyInstance(this->instance, nullptr);
     glfwDestroyWindow(this->glfwWindow);
     glfwTerminate();
